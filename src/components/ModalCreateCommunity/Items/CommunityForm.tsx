@@ -62,12 +62,11 @@ const CommunityForm = () => {
   }
 
   const DescriptionReview = () => {
-    let descripton = watch('description')
-    if (descripton.length < 10) return descripton
-    else {
-      descripton = descripton + '\n'
-    }
-    return descripton
+    return watch('description')
+  }
+
+  const ReviewSizeOfName = () => {
+    return watch('name').length
   }
 
   useEffect(() => {
@@ -119,7 +118,7 @@ const CommunityForm = () => {
         <Card sx={{ width: 300, wordWrap: 'break-word' }}>
           <CardContent>
             <Typography variant="h6">
-              r/{watch('name') || 'your_community'}
+              r/{ReviewSizeOfName() || 'your_community'}
             </Typography>
             <Typography variant="subtitle2" color="text.secondary">
               1 member · 1 online

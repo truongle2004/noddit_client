@@ -1,22 +1,12 @@
 import { useState } from 'react'
-import {
-  Box,
-  Stack,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-  TextField,
-  Button
-} from '@mui/material'
 import { DropzoneArea } from 'mui-file-dropzone'
 import Editor from '@/components/Editor'
 import { CREATE_POST_WITH_OPTION } from '@/constant'
+import { SelectChangeEvent, Box, Stack, Typography, FormControl, InputLabel, Select, MenuItem, Button, TextField } from '@mui/material'
 
 const CreateNewPost = () => {
   const [title, setTitle] = useState('')
+  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [images, setImages] = useState<File[]>([])
   const [content, setContent] = useState('')
@@ -85,3 +75,4 @@ const CreateNewPost = () => {
 }
 
 export default CreateNewPost
+

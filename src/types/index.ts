@@ -31,7 +31,41 @@ export interface Response<T> {
 export interface TokenResponse {
   token: {
     access_token: string
-    /** The type of the token, usually "Bearer". */
     token_type: string
   }
 }
+
+export interface Topic {
+  id: string
+  name: string
+  description: string
+}
+
+export interface Rules {
+  id: string
+  title: string
+  description: string
+  position: number
+}
+
+export interface Community {
+  id: string
+  name: string
+  title: string
+  description: string
+  type: string
+  banner_image: string
+  icon_image: string
+  created_at: Date
+  updated_at: Date
+  topics: Topic[]
+}
+
+export interface CreateCommunity {
+  name: string
+  description: string
+  topic: string[]
+  type: string
+}
+
+export type CommunityPrivacy = 'public' | 'restricted' | 'private'

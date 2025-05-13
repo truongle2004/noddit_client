@@ -3,9 +3,10 @@ import router from '@/router/router'
 import { useAuthStore } from '@/store/authStore'
 import { useMutation } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import _ from 'lodash'
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { token, setToken } = useAuthStore()
+  const { token, setToken, setUser, user } = useAuthStore()
   const { mutate: RefreshTokenMutation } = useMutation({
     mutationKey: ['refreshToken'],
     mutationFn: RefreshTokenAPI,
@@ -22,6 +23,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!token) {
       RefreshTokenMutation()
+    } else if (_.every(user, _.isNull)) {
+      // TODO: decode token
     }
   }, [RefreshTokenMutation, token])
   return children

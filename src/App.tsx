@@ -5,7 +5,7 @@ import router from './router/router'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import theme from './utils/theme'
-import AuthProvider from './components/AuthProvider'
+import AuthProvider from './providers/AuthProvider'
 
 const queryClient = new QueryClient()
 

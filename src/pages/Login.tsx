@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import BgImage from '@/assets/auth_bg.jpg'
-import { LoginAccountAPI } from '../services/auth'
+import { LoginAccountAPI } from '../apis/auth'
 import { ToastifyError, ToastifySuccess } from '@/utils/toastify'
 import axios from 'axios'
 import Box from '@mui/material/Box'
@@ -52,9 +52,9 @@ const Login = () => {
       navigate('/')
     },
     onError: (error) => {
+      ToastifyError('Invalid credentical provided')
       if (axios.isAxiosError(error)) {
         const msg = error.response?.data.message
-        console.log(msg)
         ToastifyError(msg)
       }
     }

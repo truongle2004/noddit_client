@@ -1,26 +1,26 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import BgImage from '@/assets/auth_bg.jpg'
-import axios from 'axios'
-import { debounce } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
-import { emailRegex } from '@/constant'
-import { ToastifyError, ToastifySuccess } from '@/utils/toastify'
-import type { RegisterRequest } from '@/types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { debounce } from 'lodash'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import BgImage from '@/assets/auth_bg.jpg'
+import { emailRegex } from '@/constant'
+import { ToastifyError, ToastifySuccess } from '@/utils/toastify'
 import {
   CheckExistEmailAPI,
   CheckUsernameAPI,
   RegisterAccountAPI
-} from '@/services/auth'
+} from '@/apis/auth'
 
+// Form validation schema
 const schema = z
   .object({
     username: z.string().min(8, 'Username must be at least 8 characters'),
@@ -45,23 +45,26 @@ const Register = () => {
     watch,
     formState: { errors },
     handleSubmit
-  } = useForm<RegisterRequest>({
+  } = useForm({
     defaultValues: {
       email: '',
       username: '',
       password: '',
-      confirm_password: ''
+      confirmPassword: ''
     },
     resolver: zodResolver(schema)
   })
 
   const { mutate: checkEmailMutation } = useMutation({
     mutationFn: CheckExistEmailAPI,
-    onSuccess: () => setIsEmailAccepted(true),
+    onSuccess: () => {
+      setIsEmailAccepted(true)
+      setEmailError('')
+    },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        const msg = error.response?.data.message
-        setEmailError(msg)
+        setIsEmailAccepted(false)
+        setEmailError('Email is already taken')
       }
     }
   })
@@ -74,7 +77,8 @@ const Register = () => {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        const msg = error.response?.data.message
+        setIsUsernameAccepted(false)
+        const msg = error.response?.data.message || 'Username already taken'
         setUsernameError(msg)
       }
     }
@@ -82,21 +86,26 @@ const Register = () => {
 
   const { mutate: registerMutation } = useMutation({
     mutationFn: RegisterAccountAPI,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onSuccess: (_) => {
-      ToastifySuccess('Registration successful!. Please login again.')
+    onSuccess: () => {
+      ToastifySuccess('Registration successful! Please login again.')
       navigate('/login')
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        const msg = error.response?.data.message || 'Registration failed'
+        ToastifyError(msg)
+      }
     }
   })
 
   const debouncedCheckUsername = useRef(
-    debounce((username: string) => {
+    debounce((username) => {
       checkUsernameMutation(username)
     }, 500)
   ).current
 
   const debouncedCheckEmail = useRef(
-    debounce((email: string) => {
+    debounce((email) => {
       checkEmailMutation(email)
     }, 500)
   ).current
@@ -113,7 +122,6 @@ const Register = () => {
     if (!errors.username?.message && username.length >= 8) {
       debouncedCheckUsername(username)
     } else {
-      setUsernameError('')
       setIsUsernameAccepted(false)
     }
   }
@@ -130,7 +138,6 @@ const Register = () => {
     if (emailRegex.test(email)) {
       debouncedCheckEmail(email)
     } else {
-      setEmailError('')
       setIsEmailAccepted(false)
     }
   }
@@ -145,22 +152,39 @@ const Register = () => {
     return () => debouncedCheckEmail.cancel()
   }, [watch('email')])
 
-  const onSubmit = (data: RegisterRequest) => {
-    if (emailError) {
+  // TODO: remove any
+  const onSubmit = (data: any) => {
+    // Convert to the structure expected by your API
+    const registerData = {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      confirm_password: data.confirmPassword // Adjust field name for API if needed
+    }
+
+    // Check for validation and API validation errors
+    if (errors.email || emailError) {
       ToastifyError(errors.email?.message || emailError)
       return
     }
 
-    if (isUsernameAccepted && isEmailAccepted) {
-      registerMutation(data)
-    } else {
-      if (!isUsernameAccepted && !usernameError) {
-        ToastifyError('Please use a valid username')
-      }
-      if (!isEmailAccepted && !emailError) {
-        ToastifyError('Please use a valid email')
-      }
+    if (errors.username || usernameError) {
+      ToastifyError(errors.username?.message || usernameError)
+      return
     }
+
+    if (!isUsernameAccepted) {
+      ToastifyError('Please use a valid username')
+      return
+    }
+
+    if (!isEmailAccepted) {
+      ToastifyError('Please use a valid email')
+      return
+    }
+
+    // If all validations pass, proceed with registration
+    registerMutation(registerData)
   }
 
   return (
@@ -202,6 +226,7 @@ const Register = () => {
           <Stack spacing={3}>
             <TextField
               fullWidth
+              type="text"
               label="Username"
               {...register('username')}
               error={!!errors.username || !!usernameError}
@@ -235,9 +260,9 @@ const Register = () => {
                 fullWidth
                 label="Confirm Password"
                 type="password"
-                {...register('confirm_password')}
-                error={!!errors.confirm_password}
-                helperText={errors.confirm_password?.message}
+                {...register('confirmPassword')}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword?.message}
               />
             </Stack>
 

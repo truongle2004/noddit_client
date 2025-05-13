@@ -7,7 +7,7 @@ import RecentPost from '@/components/RecentPost'
 import ListCard from '@/components/ListCard'
 import Drawer from '@/components/Drawer/Drawer'
 import useDashboardStore from '@/store/dashboardStore'
-import ModalCreateCommunity from '@/components/ModalCreateCommunity/ModalCreateCommunity'
+import ModalCreateCommunity from '@/components/ModalCreateCommunity'
 
 const DashboardPage = () => {
   const { action } = useActionStore()

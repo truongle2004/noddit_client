@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import _ from 'lodash'
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { token, setToken, setUser, user } = useAuthStore()
+  const { token, setToken, user } = useAuthStore()
   const { mutate: RefreshTokenMutation } = useMutation({
     mutationKey: ['refreshToken'],
     mutationFn: RefreshTokenAPI,

@@ -10,11 +10,13 @@ import {
   Paper,
   Divider,
   Chip,
-  Stack
+  Stack,
+  useTheme
 } from '@mui/material'
 import Card from '@/components/Card'
 
 const DetailPage = () => {
+  const theme = useTheme()
   const title = 'Sample Title'
   const description =
     'This is a sample description for the detail page. You can update it with your actual content.'
@@ -95,7 +97,7 @@ const DetailPage = () => {
             </Typography>
             <Box>
               {cards.map((card, index) => (
-                <Card key={index} />
+                <Card key={index} cardWidth={theme.custom.width.cardDetail} />
               ))}
             </Box>
           </Box>

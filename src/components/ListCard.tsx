@@ -19,6 +19,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
 import Card from './Card'
+import { useTheme } from '@mui/material'
 
 type RowProps = {
   index: number
@@ -27,6 +28,7 @@ type RowProps = {
 
 const ListCard = () => {
   // State management
+  const theme = useTheme()
   const [cards, setCards] = React.useState(
     Array.from({ length: 25 }).map((_, index) => ({
       id: `card-${index}`,
@@ -126,7 +128,7 @@ const ListCard = () => {
     return (
       <div style={style}>
         <Box sx={{ px: 2, py: 1 }}>
-          <Card key={cards[index].id} />
+          <Card key={cards[index].id} cardWidth={theme.custom.width.cardHome} />
         </Box>
       </div>
     )

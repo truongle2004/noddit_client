@@ -20,7 +20,11 @@ import ShareIcon from '@mui/icons-material/Share'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 
-const Card = () => {
+interface CardProps {
+  cardWidth: number
+}
+
+const Card: React.FC<CardProps> = ({ cardWidth }) => {
   // State management
   const [likes, setLikes] = React.useState(42)
   const [dislikes, setDislikes] = React.useState(7)
@@ -97,7 +101,8 @@ const Card = () => {
   return (
     <MuiCard
       sx={{
-        maxWidth: 600,
+        my: 2,
+        maxWidth: cardWidth,
         width: '100%',
         borderRadius: 2,
         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',

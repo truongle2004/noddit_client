@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Box,
-  Card,
+  Card as MuiCard,
   CardMedia,
   Avatar,
   Typography,
@@ -12,6 +12,7 @@ import {
   Chip,
   Stack
 } from '@mui/material'
+import Card from '@/components/Card'
 
 const DetailPage = () => {
   const title = 'Sample Title'
@@ -29,11 +30,13 @@ const DetailPage = () => {
     Views: '1234'
   }
 
+  const cards = Array.from({ length: 15 })
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ position: 'relative', mb: 6 }}>
         {/* Banner Image */}
-        <Card elevation={0} sx={{ borderRadius: 2, overflow: 'hidden' }}>
+        <MuiCard elevation={0} sx={{ borderRadius: 2, overflow: 'hidden' }}>
           <CardMedia
             component="img"
             height="300"
@@ -44,7 +47,7 @@ const DetailPage = () => {
               objectFit: 'cover'
             }}
           />
-        </Card>
+        </MuiCard>
 
         {/* Avatar with overlap on banner */}
         <Avatar
@@ -90,6 +93,11 @@ const DetailPage = () => {
             <Typography variant="body1" paragraph>
               {description}
             </Typography>
+            <Box>
+              {cards.map((card, index) => (
+                <Card key={index} />
+              ))}
+            </Box>
           </Box>
         </Grid>
 

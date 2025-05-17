@@ -1,12 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-// interface Expire {
-//   sub: string
-//   exp: number
-//   iat: number
-// }
-
 interface User {
   id: string
   name: string

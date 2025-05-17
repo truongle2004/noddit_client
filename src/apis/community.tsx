@@ -21,3 +21,15 @@ export const addNewCommunityAPI = async (
     `${API_VERSION.V1}/subnoddit-service/communities/create`,
     formData
   )
+
+/**
+ * Get community by id
+ * @param {string} id
+ * @returns {Promise<Response<Community>>}
+ */
+export const getCommunityByTopicIdAPI = async (
+  id: string
+): Promise<Response<Community[]>> =>
+  await axiosConfig.get(
+    `${API_VERSION.V1}/subnoddit-service/communities/${id}/topics`
+  )

@@ -50,7 +50,7 @@ const AppbarItem = () => {
       />
 
       <Stack direction={'row'} spacing={2}>
-        <ThemeControl />
+        {/* <ThemeControl /> */}
         {/* Email Icon */}
         <IconButton color="inherit">
           <Badge badgeContent={4} color="error">

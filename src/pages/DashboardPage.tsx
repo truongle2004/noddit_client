@@ -8,6 +8,7 @@ import ListCard from '@/components/ListCard'
 import Drawer from '@/components/Drawer/Drawer'
 import useDashboardStore from '@/store/dashboardStore'
 import ModalCreateCommunity from '@/components/ModalCreateCommunity'
+import { CssBaseline } from '@mui/material'
 
 const DashboardPage = () => {
   const { action } = useActionStore()

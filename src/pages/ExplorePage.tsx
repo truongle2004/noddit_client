@@ -16,6 +16,7 @@ import Avatar from '@mui/material/Avatar'
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import { env } from '@/config/environment'
+import { useNavigate } from 'react-router-dom'
 
 const ExplorePage = () => {
   const { data: topics } = useQuery({
@@ -48,6 +49,11 @@ const ExplorePage = () => {
         behavior: 'smooth'
       })
     }
+  }
+  const navigate = useNavigate()
+
+  const handleClickCard = (id: string) => {
+    navigate(`/detail/${id}`)
   }
 
   return (
@@ -140,6 +146,7 @@ const ExplorePage = () => {
                   }}
                 >
                   <Card
+                    onClick={() => handleClickCard(item.id)}
                     sx={{
                       width: '100%',
                       display: 'flex',

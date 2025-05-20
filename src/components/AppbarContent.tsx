@@ -15,7 +15,6 @@ import { ACTION } from '@/constant'
 import Button from '@mui/material/Button'
 import useActionStore from '@/store/actionStore'
 import AccountMenu from './AccountMenu'
-import ThemeControl from './ThemeControl'
 
 const AppbarItem = () => {
   const { setAction } = useActionStore()

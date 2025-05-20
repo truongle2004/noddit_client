@@ -26,7 +26,7 @@ const schema = z.object({
   password: z.string().nonempty('Password is required')
 })
 
-const Login = () => {
+const LoginPage = () => {
   const {
     register,
     handleSubmit,
@@ -187,4 +187,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginPage

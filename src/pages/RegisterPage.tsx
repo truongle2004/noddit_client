@@ -33,7 +33,7 @@ const schema = z
     path: ['confirmPassword']
   })
 
-const Register = () => {
+const RegisterPage = () => {
   const [isEmailAccepted, setIsEmailAccepted] = useState(false)
   const [isUsernameAccepted, setIsUsernameAccepted] = useState(false)
   const [emailError, setEmailError] = useState('')
@@ -289,4 +289,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default RegisterPage
